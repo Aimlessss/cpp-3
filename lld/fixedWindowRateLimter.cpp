@@ -20,7 +20,7 @@ class FixedWindowRateLimter {
         bool allow(const string key){
             auto now = chrono::steady_clock::now();
             lock_guard<mutex> lock(mtx);
-            auto window = store[key];
+            auto& window = store[key];
             if(window.count == 0){
                 window.start = now;
             }
@@ -46,4 +46,62 @@ class FixedWindowRateLimter {
 
 int main(){
     //call it here
+    FixedWindowRateLimter fs(3, 10);
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+        cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+        cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+        cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+        cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+        cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+        cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    this_thread::sleep_for(chrono::seconds(10   ));
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+     cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    cout<<fs.allow("user1")<<endl;
+    
+
 }
