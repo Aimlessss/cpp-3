@@ -1,0 +1,47 @@
+# Build outputs
+build/
+bin/
+out/
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.exe
+*.dll
+*.dylib
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# VSCode
+.vscode/
+
+# Devcontainer (local only)
+.devcontainer/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Coverage / testing
+*.gcda
+*.gcno
+*.gcov
+coverage/
+
+# Dependency folders
+node_modules/
