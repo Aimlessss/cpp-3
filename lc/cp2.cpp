@@ -1,30 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
 int main() {
-	// your code goes here
-	int n, q;
-	cin>>n>>q;
-	int arr[n];
-	for(int i = 0; i < n; i++){
-	    cin>>arr[i];
-	}
-	sort(arr, arr + n);
-	while(q--){
-	    int x;
-	    cin>>x;
-	    int latest = 0;
-	    int ans = 0;
-	    for(int i = 0; i < n; i++){
-	        if (i > 0 && arr[i] == arr[i-1]) continue;
-	        if(latest < arr[i]){
-	            ans+=x;
-	        }else{
-	            int temp = arr[i] + x;
-	            ans+=temp - latest;
-	        }
-	        latest = arr[i] + x;
-	    }
-	}
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        n*=3;
+        vector<int>v;
+        int i = 1;
+        int j = n;
+        while(i < j){
+            v.push_back(i);
+            i++;
+            v.push_back(j);
+            j--;
+            v.push_back(j);
+            j--;
+        }
+        for(auto x : v){
+            cout<<x<<" ";
+        }
+        cout<<endl; 
+    }
 	return 0;
 }
