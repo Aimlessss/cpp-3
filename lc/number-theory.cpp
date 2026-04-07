@@ -33,7 +33,10 @@ public:
             n--;
         }
         if(n < 0){
+            int lr = ls.back();
             ls.pop_back();
+            mp.erase(lr);
+            n++;
         }
     }
 };
