@@ -1,64 +1,49 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-
-class LRUCache {
+class Solution {
 public:
-    list<int>ls;
-    map<int, pair<list<int>::iterator, int>>mp;
-    int n;
-    LRUCache(int capacity) {
-        n = capacity;
-    }
-    void update(int key){
-        ls.erase(mp[key].first);
-        ls.push_front(key);
-        mp[key].first = ls.begin();
-    }
-    int get(int key) {
-        if(mp.find(key) == mp.end()){
-            return -1;
-        }
-        update(key);
-        return mp[key].second;
-    }
-    
-    void put(int key, int value) {
-        if(mp.find(key) != mp.end()){
-            update(key);
-            mp[key].second = value;
-        }else{
-            ls.push_front(key);
-            mp[key].first = ls.begin();
-            mp[key].second = value;
-            n--;
-        }
-        if(n < 0){
-            int lr = ls.back();
-            ls.pop_back();
-            mp.erase(lr);
-            n++;
-        }
-    }
-};
+    bool isPrime(int number){
+        if(number <= 1) return false;
+        if(number == 2)return false;
+        if(number % 2 == 0)return false;
 
-    bool isToeplitzMatrix(vector<vector<int>>& matrix) {
-        map<int, set<int>>mp;
-        int m = matrix.size();
-        int n = matrix[0].size();
-        for(int i = 0; i < m; i++){
-            for(int j = 9; j < n; j++){
-                mp[i - j].insert(matrix[i][j]);
-            }
-        }
-        if(mp.size() > m + n)return false;
-        for(auto x : mp){
-            if(x.second.size() > 1){
-                return false;
-            }
+        for(int i = 3; i * i <= number; i+=2){
+            if(number % i == 0)return false;
         }
         return true;
     }
+    int check(int number, int idx){
+        int count = 0;
+        if(idx % 2 == 0 && !isPrime(number)){
+            while(!isPrime(number)){
+                count++;
+                number++;
+            }
+            return count;
+        }else if(idx % 2 != 0 && isPrime(number)){
+            while(isPrime(number)){
+                count++;
+                number++;
+            }
+            return count;
+        }
+        return count;
+    }
+    int minOperations(vector<int>& nums) {
+        int n = nums.size();
+        int counter = 0;
+        for(int i = 0; i < n; i++){
+            int num = nums[i];
+            counter+=(check(nums[i], i));
+        }
+        return counter;
+    }
+};
+
+
 int main(){
-    vector<vector<int>>matrix = {{1, 2}, {2,2}};
-    cout << isToeplitzMatrix(matrix) << endl;
-}
+    vector<int> nums = {1,2,3,4};
+    Solution sol; 
+    cout << sol.minOperations(nums) << endl;
+
+}   
