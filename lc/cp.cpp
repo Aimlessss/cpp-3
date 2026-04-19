@@ -23,23 +23,17 @@ void addPrimes(){
         }
     }
 }
-
+void solve(int idx, int n){
+    int count = 1;
+    
+}
 int main(){
-    int n, k; 
-    cin>>n>>k;
-    seive();
-    addPrimes();
-    int count = 0;
-    for(int i = 0; i < primes.size() - 1; i++){
-        int num = primes[i] + primes[i + 1] + 1;
-        if( num <= n && isPrime[num]){
-            count++;
+    int n;
+    cin>>n;
+    for(int i = 1; i <= n; i++){
+        if(isPrime[i]){
+            solve(i, n);
         }
-    }
-    if(count >= k){
-        cout<<"YES"<<endl;
-    }else{
-        cout<<"NO"<<endl;
     }
     return 0;
 }
