@@ -1,39 +1,47 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
+#define ll long long
 
-// templates 
-const int MAXN = 100000;
-vector<bool>isPrime(MAXN + 1, true);
-vector<int>primes;
-void seive(){
-    isPrime[0] = isPrime[1] = false;
-    for(int i = 2; i * i <= MAXN; i++){
-        if(isPrime[i]){
-            for(int j = i * i; j <= MAXN; j+=i){
-                isPrime[j] = false;
-            }
-        }
-    }
+class Solution {
+public:
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        priority_queue<int, vector<int>, greater<int>>minHeapOne;
+        priority_queue<int, vector<int>, greater<int>>minHeapTwo;
 
-}
-void addPrimes(){
-    for(int i = 2; i <= MAXN; i++){
-        if(isPrime[i]){
-            primes.push_back(i);
-        }
+		int n = costs.size();
+		int i = 0;
+		int j = n - 1;
+		int hired = 0;
+		int ans = 0;
+		while(hired < k){
+			while(minHeapOne.size() < candidates && i<=j){
+				minHeapOne.push(costs[i]);
+				i++;
+			}
+			while(minHeapTwo.size() < candidates && i >= j){
+				minHeapTwo.push(costs[i]);
+				j++;
+			}
+
+			int minHeapOneEle = minHeapOne.size() > 0 ? minHeapOne.top() : INT_MAX;
+			int minHeapTwoEle = minHeapTwo.size() > 0 ? minHeapTwo.top() : INT_MAX;
+
+			if(minHeapOneEle <= minHeapTwoEle){
+				ans += minHeapOneEle;
+				minHeapOne.pop();
+			}else{
+				ans+= minHeapTwoEle;
+				minHeapTwo.pop();
+			}
+			hired++;
+		}
+		return ans;
     }
-}
-void solve(int idx, int n){
-    int count = 1;
-    
-}
-int main(){
-    int n;
-    cin>>n;
-    for(int i = 1; i <= n; i++){
-        if(isPrime[i]){
-            solve(i, n);
-        }
-    }
-    return 0;
+};
+
+
+int main() {
+	Solution s;
+	vector<int>v = {1,2,4,1};
+	cout<<s.totalCost(v, 3, 3);	
 }
