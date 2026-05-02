@@ -1,42 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-int binPow(int a, int b){
-    int half = binPow(a, b / 2);
-    int res = half * half;
-    if(b % 2 == 1){
-        res = (res * a);
-    }
-    return res;
-}
-
-int main() {
-	// your code goes here
-	int t;
-	cin>>t;
-	while(t--){
-	    int n, m; 
-	    cin>>n>>m;
-	    int arr[n];
-	    int sum = 0;
-	    for(int i = 0;i < m; i++){
-	        cin>>arr[i];
-	    }
-        int dounets = 0;
-        for(int i = 0; i < m; i++){
-            int pieces = m - (i + 1);
-            dounets+=arr[i];
-
-            if(dounets >= pieces - 1){
-                if(dounets == pieces - 1){
-                    cout<<pieces - 1<<endl;
-                }else{
-                    cout<<pieces<<endl;
-                }
+class Solution {
+public:
+    int getUnsetBit(int diff){
+        int i = 0;
+        while(diff > 0){
+            if(diff & 1 == 1){
                 break;
             }
+            diff >>= 1;
+            i++;
         }
-	}
+        return i;
+    }
+    vector<int> singleNumber(vector<int>& nums) {
+        int diff = 0;
+        for(auto x : nums){
+            diff ^= x;
+        }
+        int k = getUnsetBit(diff);
+        int mask = 1 << k;
+        int a = 0;
+        int b = 0;
+        for(auto x : nums){
+            if((x & mask) == 0){
+                a ^= x;
+            } else {
+                b ^= x;
+            }
+        }
+        return {a, b};
+    }
+};
 
+
+int main() {
+    Solution sol;
+    vector<int> nums = {1, 2, 1, 3, 2, 5};
+    vector<int> result = sol.singleNumber(nums);
+    for(int x : result){
+        cout << x << " ";
+    }
+    return 0;
 }
