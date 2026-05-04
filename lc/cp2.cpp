@@ -1,46 +1,59 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define ll long long
 
-class Solution {
-public:
-    int getUnsetBit(int diff){
-        int i = 0;
-        while(diff > 0){
-            if(diff & 1 == 1){
-                break;
-            }
-            diff >>= 1;
-            i++;
-        }
-        return i;
-    }
-    vector<int> singleNumber(vector<int>& nums) {
-        int diff = 0;
-        for(auto x : nums){
-            diff ^= x;
-        }
-        int k = getUnsetBit(diff);
-        int mask = 1 << k;
-        int a = 0;
-        int b = 0;
-        for(auto x : nums){
-            if((x & mask) == 0){
-                a ^= x;
-            } else {
-                b ^= x;
-            }
-        }
-        return {a, b};
-    }
-};
+int bs(vector<ll>& arr, ll target){
+    int left = 0; 
+    int right = arr.size() - 1;
+    int idx = -1;
 
+    while(left <= right){
+        int mid = left + (right - left) / 2;
+
+        if(arr[mid] <= target){
+            idx = mid;
+            left = mid + 1;
+        }else{
+            right = mid - 1;
+        }
+    }
+    return idx;
+}
 
 int main() {
-    Solution sol;
-    vector<int> nums = {1, 2, 1, 3, 2, 5};
-    vector<int> result = sol.singleNumber(nums);
-    for(int x : result){
-        cout << x << " ";
-    }
-    return 0;
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--){
+        ll n;
+        cin>>n;
+        vector<ll>arr(n);
+        vector<ll>brr;
+        for(ll i = 0; i < n; i++){
+            cin>>arr[i];
+        }
+        brr = arr;
+        // sort(arr, arr + n);
+        sort(arr.begin(), arr.end());
+        vector<ll>pref(n, 0);
+        map<ll, ll>mp;
+        pref[0] = arr[0];
+        mp[arr[0]] = arr[0];
+        for(ll i = 1; i < n; i++){
+            pref[i] = pref[i - 1] + arr[i];
+            mp[arr[i]] = pref[i];
+        }
+        vector<ll>ans; 
+        for(ll i = 0; i < n; i++){
+            ll num = brr[i];
+            ll prefSumEle = mp[num];
+            ll temp = bs(arr, prefSumEle);
+            ans.push_back(temp);
+        }
+
+        for(auto x : ans){
+            cout<<x<<" ";
+        }
+        cout<<endl;
+	}
 }
