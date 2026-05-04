@@ -12,6 +12,7 @@ int bs(vector<ll>& arr, ll target){
 
         if(arr[mid] <= target){
             idx = mid;
+            target+=arr[mid];
             left = mid + 1;
         }else{
             right = mid - 1;
@@ -48,7 +49,7 @@ int main() {
             ll num = brr[i];
             ll prefSumEle = mp[num];
             ll temp = bs(arr, prefSumEle);
-            ans.push_back(temp);
+            ans.push_back(temp - 1);
         }
 
         for(auto x : ans){
