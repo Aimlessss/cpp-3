@@ -2,59 +2,60 @@
 using namespace std;
 #define ll long long
 
-int bs(vector<ll>& arr, ll target){
-    int left = 0; 
-    int right = arr.size() - 1;
-    int idx = -1;
-
-    while(left <= right){
-        int mid = left + (right - left) / 2;
-
-        if(arr[mid] <= target){
-            idx = mid;
-            target+=arr[mid];
-            left = mid + 1;
-        }else{
-            right = mid - 1;
+  struct ListNode {
+      int val;
+      ListNode *next;
+      ListNode() : val(0), next(nullptr) {}
+      ListNode(int x) : val(x), next(nullptr) {}
+      ListNode(int x, ListNode *next) : val(x), next(next) {}
+  };
+class Solution {
+public:
+    ll getLinkedListSize(ListNode* head){
+        ll size = 0;
+        while(head != nullptr){
+            size++;
+            head = head->next;
         }
+        return size;
     }
-    return idx;
-}
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == nullptr) return nullptr;
+        //pop the last node 
+        //attach the last node to first
+        int size = getLinkedListSize(head);
+        int toRotate = k % size;
+        while (toRotate--){
+            ListNode* prevOfLast = nullptr;
+            ListNode* lastNode = head;
+            while (lastNode->next != nullptr){
+                prevOfLast = lastNode;
+                lastNode = lastNode->next;
+            }
+            prevOfLast->next = nullptr;
+            lastNode->next = head;
+            head = lastNode;
+        }
+        return head;
+    }
+};
+
 
 int main() {
-	// your code goes here
-	int t;
-	cin>>t;
-	while(t--){
-        ll n;
-        cin>>n;
-        vector<ll>arr(n);
-        vector<ll>brr;
-        for(ll i = 0; i < n; i++){
-            cin>>arr[i];
-        }
-        brr = arr;
-        // sort(arr, arr + n);
-        sort(arr.begin(), arr.end());
-        vector<ll>pref(n, 0);
-        map<ll, ll>mp;
-        pref[0] = arr[0];
-        mp[arr[0]] = arr[0];
-        for(ll i = 1; i < n; i++){
-            pref[i] = pref[i - 1] + arr[i];
-            mp[arr[i]] = pref[i];
-        }
-        vector<ll>ans; 
-        for(ll i = 0; i < n; i++){
-            ll num = brr[i];
-            ll prefSumEle = mp[num];
-            ll temp = bs(arr, prefSumEle);
-            ans.push_back(temp - 1);
-        }
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+    // head->next->next->next->next->next = new ListNode(6);
+    // head->next->next->next->next->next->next = new ListNode(7);
+    Solution s;
+    s.rotateRight(head, 2);
+    ListNode* tail = head->next->next->next->next->next->next;
+    ListNode* prevTail = head->next->next->next->next->next;
+    prevTail->next = nullptr;
+    tail->next = head;
+    
+    return 0;
 
-        for(auto x : ans){
-            cout<<x<<" ";
-        }
-        cout<<endl;
-	}
 }

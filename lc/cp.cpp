@@ -1,47 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-
-class Solution {
-public:
-    long long totalCost(vector<int>& costs, int k, int candidates) {
-        priority_queue<int, vector<int>, greater<int>>minHeapOne;
-        priority_queue<int, vector<int>, greater<int>>minHeapTwo;
-
-		int n = costs.size();
-		int i = 0;
-		int j = n - 1;
-		int hired = 0;
-		int ans = 0;
-		while(hired < k){
-			while(minHeapOne.size() < candidates && i<=j){
-				minHeapOne.push(costs[i]);
-				i++;
-			}
-			while(minHeapTwo.size() < candidates && i >= j){
-				minHeapTwo.push(costs[i]);
-				j++;
-			}
-
-			int minHeapOneEle = minHeapOne.size() > 0 ? minHeapOne.top() : INT_MAX;
-			int minHeapTwoEle = minHeapTwo.size() > 0 ? minHeapTwo.top() : INT_MAX;
-
-			if(minHeapOneEle <= minHeapTwoEle){
-				ans += minHeapOneEle;
-				minHeapOne.pop();
-			}else{
-				ans+= minHeapTwoEle;
-				minHeapTwo.pop();
-			}
-			hired++;
-		}
-		return ans;
-    }
-};
-
 
 int main() {
-	Solution s;
-	vector<int>v = {1,2,4,1};
-	cout<<s.totalCost(v, 3, 3);	
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--){
+	    int n;
+        cin>>n;
+        vector<int> a(n);
+        for(int i=0;i<n;i++){
+            cin>>a[i];
+        }
+        int ans = 0;
+        for(int i = 0; i < 31; i++){
+            int countBits = 0;
+            for(int j = 0; j < n; j++){
+                int bit = (a[j] >> i) & 1;
+                countBits += bit;
+            }
+            if(countBits % 2 == 1){
+                ans |= (1 << i);
+            }
+        }
+        cout<<ans<<endl;
+	}
+
 }
