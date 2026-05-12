@@ -2,60 +2,85 @@
 using namespace std;
 #define ll long long
 
-  struct ListNode {
-      int val;
-      ListNode *next;
-      ListNode() : val(0), next(nullptr) {}
-      ListNode(int x) : val(x), next(nullptr) {}
-      ListNode(int x, ListNode *next) : val(x), next(next) {}
-  };
 class Solution {
 public:
-    ll getLinkedListSize(ListNode* head){
-        ll size = 0;
-        while(head != nullptr){
-            size++;
-            head = head->next;
+    bool check(int target, vector<vector<int>>& tasks){
+        for(int i = 0; i < tasks.size(); i++){
+            int first = tasks[i][0];
+            int second = tasks[i][1];
+
+            if(target < second)return false;
+            target-=first;
         }
-        return size;
+        return true;
     }
-    ListNode* rotateRight(ListNode* head, int k) {
-        if(head == nullptr) return nullptr;
-        //pop the last node 
-        //attach the last node to first
-        int size = getLinkedListSize(head);
-        int toRotate = k % size;
-        while (toRotate--){
-            ListNode* prevOfLast = nullptr;
-            ListNode* lastNode = head;
-            while (lastNode->next != nullptr){
-                prevOfLast = lastNode;
-                lastNode = lastNode->next;
-            }
-            prevOfLast->next = nullptr;
-            lastNode->next = head;
-            head = lastNode;
+    int minimumEffort(vector<vector<int>>& tasks) {
+        int maxSecond = 0;
+        int prefSum = 0;
+        for(auto& x : tasks){
+            prefSum+=x[0];
+            maxSecond = max(maxSecond, x[1]);
         }
-        return head;
+        sort(tasks.begin(), tasks.end());
+        int left = 1;
+        int right = maxSecond + prefSum;
+        int res = right;
+        while(left <= right){
+            int midd = left + (right - left) / 2;
+
+            if(check(midd, tasks)){
+                res = midd;
+                right = midd - 1;
+            }else{
+                left = midd + 1;
+            }
+        }
+        return res;
     }
 };
 
-
 int main() {
-    ListNode* head = new ListNode(1);
-    head->next = new ListNode(2);
-    head->next->next = new ListNode(3);
-    head->next->next->next = new ListNode(4);
-    head->next->next->next->next = new ListNode(5);
-    // head->next->next->next->next->next = new ListNode(6);
-    // head->next->next->next->next->next->next = new ListNode(7);
-    Solution s;
-    s.rotateRight(head, 2);
-    ListNode* tail = head->next->next->next->next->next->next;
-    ListNode* prevTail = head->next->next->next->next->next;
-    prevTail->next = nullptr;
-    tail->next = head;
-    
+    ll t;
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        ll temp = n;
+        ll arr[n];
+        for(ll i = 0; i < n; i++){
+            cin>>arr[i];
+        }
+        stack<ll>factors;
+        for(ll i = 1; i <= sqrt(n); i++){
+            if(n % i == 0){
+                factors.push(i);
+                if(n / i != i){
+                    factors.push(n / i);
+                }
+            }
+        }
+        ll maxRes = 0;
+        while(!factors.empty()){
+            temp = factors.top();
+            factors.pop();
+            ll i = 0;
+            ll j = 0;
+            ll maxNum = LONG_LONG_MIN;
+            ll minNum = LONG_LONG_MAX;
+            ll currSum = 0;
+            while(j < n){
+                currSum+=arr[j];
+                if(j - i + 1 >= temp){
+                    maxNum = max(maxNum, currSum);
+                    minNum = min(minNum, currSum);
+                    currSum = 0;
+                    i = j + 1;
+                }
+                j++;
+            }
+            maxRes = max(maxRes, abs(maxNum - minNum));
+        }
+        cout<<maxRes<<endl;
+    }
     return 0;
-
 }
